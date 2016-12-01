@@ -10,18 +10,18 @@ import org.whispersystems.curve25519.Curve25519KeyPair;
 import org.whispersystems.curve25519.VrfSignatureVerificationFailedException;
 import org.whispersystems.libsignal.InvalidKeyException;
 
-import static org.whispersystems.curve25519.Curve25519.BEST;
+import static org.whispersystems.curve25519.Curve25519.JAVA;
 
 public class Curve {
 
   public  static final int DJB_TYPE   = 0x05;
 
   public static boolean isNative() {
-    return Curve25519.getInstance(BEST).isNative();
+    return Curve25519.getInstance(JAVA).isNative();
   }
 
   public static ECKeyPair generateKeyPair() {
-    Curve25519KeyPair keyPair = Curve25519.getInstance(BEST).generateKeyPair();
+    Curve25519KeyPair keyPair = Curve25519.getInstance(JAVA).generateKeyPair();
 
     return new ECKeyPair(new DjbECPublicKey(keyPair.getPublicKey()),
                          new DjbECPrivateKey(keyPair.getPrivateKey()));
@@ -54,7 +54,7 @@ public class Curve {
     }
 
     if (publicKey.getType() == DJB_TYPE) {
-      return Curve25519.getInstance(BEST)
+      return Curve25519.getInstance(JAVA)
                        .calculateAgreement(((DjbECPublicKey) publicKey).getPublicKey(),
                                            ((DjbECPrivateKey) privateKey).getPrivateKey());
     } else {
@@ -66,7 +66,7 @@ public class Curve {
       throws InvalidKeyException
   {
     if (signingKey.getType() == DJB_TYPE) {
-      return Curve25519.getInstance(BEST)
+      return Curve25519.getInstance(JAVA)
                        .verifySignature(((DjbECPublicKey) signingKey).getPublicKey(), message, signature);
     } else {
       throw new InvalidKeyException("Unknown type: " + signingKey.getType());
@@ -77,7 +77,7 @@ public class Curve {
       throws InvalidKeyException
   {
     if (signingKey.getType() == DJB_TYPE) {
-      return Curve25519.getInstance(BEST)
+      return Curve25519.getInstance(JAVA)
                        .calculateSignature(((DjbECPrivateKey) signingKey).getPrivateKey(), message);
     } else {
       throw new InvalidKeyException("Unknown type: " + signingKey.getType());
@@ -88,7 +88,7 @@ public class Curve {
       throws InvalidKeyException
   {
     if (signingKey.getType() == DJB_TYPE) {
-      return Curve25519.getInstance(BEST)
+      return Curve25519.getInstance(JAVA)
                        .calculateVrfSignature(((DjbECPrivateKey)signingKey).getPrivateKey(), message);
     } else {
       throw new InvalidKeyException("Unknown type: " + signingKey.getType());
@@ -99,7 +99,7 @@ public class Curve {
       throws InvalidKeyException, VrfSignatureVerificationFailedException
   {
     if (signingKey.getType() == DJB_TYPE) {
-      return Curve25519.getInstance(BEST)
+      return Curve25519.getInstance(JAVA)
                        .verifyVrfSignature(((DjbECPublicKey) signingKey).getPublicKey(), message, signature);
     } else {
       throw new InvalidKeyException("Unknown type: " + signingKey.getType());
